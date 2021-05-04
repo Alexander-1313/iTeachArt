@@ -1,5 +1,6 @@
-package com.iteachrt.iteachart.entity;
+package com.iteachart.stock.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
 
@@ -10,6 +11,7 @@ import java.util.Date;
 @Table(name = "User")
 @Data
 @ToString
+@AllArgsConstructor
 public class User {
 
     @Id

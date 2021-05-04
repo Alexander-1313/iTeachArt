@@ -1,6 +1,8 @@
-package com.iteachrt.iteachart.entity;
+package com.iteachart.stock.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
@@ -8,6 +10,8 @@ import java.util.List;
 @Entity
 @Table(name = "Company")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Company {
 
     @Id
