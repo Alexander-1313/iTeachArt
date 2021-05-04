@@ -15,6 +15,7 @@ import java.util.List;
 public class Company {
 
     @Id
+    @Column(name = "id")
     private String ticker;
 
     @Column(name = "country")
