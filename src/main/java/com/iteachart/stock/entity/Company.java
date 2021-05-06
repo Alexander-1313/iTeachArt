@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -37,15 +38,15 @@ public class Company {
     private String cik;
 
     @OneToMany(mappedBy = "companyNewsCompany")
-    private List<CompanyNews> companyNews;
+    private List<CompanyNews> companyNews = new ArrayList<>();
 
     @OneToMany(mappedBy = "financialReportCompany")
-    private List<FinancialReport> financialReports;
+    private List<FinancialReport> financialReports = new ArrayList<>();
 
     @OneToMany(mappedBy = "companySharesCompany")
-    private List<CompanyShares> companyShares;
+    private List<CompanyShares> companyShares = new ArrayList<>();
 
     @OneToMany(mappedBy = "candleCompany")
-    private List<Candle> candles;
+    private List<Candle> candles = new ArrayList<>();
 
 }
