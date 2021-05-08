@@ -37,16 +37,16 @@ public class Company {
     @Column(name = "cik")
     private String cik;
 
-    @OneToMany(mappedBy = "companyNewsCompany")
+    @OneToMany(mappedBy = "companyNewsCompany", cascade = CascadeType.ALL)
     private List<CompanyNews> companyNews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "financialReportCompany")
+    @OneToMany(mappedBy = "financialReportCompany", cascade = CascadeType.ALL)
     private List<FinancialReport> financialReports = new ArrayList<>();
 
-    @OneToMany(mappedBy = "companySharesCompany")
+    @OneToMany(mappedBy = "companySharesCompany", cascade = CascadeType.ALL)
     private List<CompanyShares> companyShares = new ArrayList<>();
 
-    @OneToMany(mappedBy = "candleCompany")
+    @OneToMany(mappedBy = "candleCompany", cascade = CascadeType.ALL)
     private List<Candle> candles = new ArrayList<>();
 
 }
