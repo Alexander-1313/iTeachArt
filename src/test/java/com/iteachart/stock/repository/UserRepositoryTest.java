@@ -22,8 +22,6 @@ public class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private SubscribeRepository subscribeRepository;
-    @Autowired
     private RoleRepository roleRepository;
 
     @Test
