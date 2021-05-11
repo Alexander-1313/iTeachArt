@@ -57,13 +57,7 @@ public class UserServiceImplTest {
         user.setEmail("qwer3@gmail.com");
         user.setIsBlocked(true);
 
-//        Subscribe subscribe = subscribeRepository.findById(2L).get();
-//        Set<User> subscribeUser = subscribe.getSubscribeUser();
-//        subscribeUser.add(user);
-//        subscribe.setSubscribeUser(subscribeUser);
-
         User saveUser = userRepository.save(user);
-//        Subscribe saveSubscribe = subscribeRepository.save(subscribe);
 
         userService.changeSubscribe(saveUser.getEmail(), subscribeRepository.getOne(2L));
 
