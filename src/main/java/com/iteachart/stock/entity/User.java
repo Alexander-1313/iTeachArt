@@ -1,17 +1,16 @@
 package com.iteachart.stock.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
 @Table(name = "User")
 @Data
 @ToString
+@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
@@ -26,7 +25,7 @@ public class User {
     @Column(name = "second_name")
     private String secondName;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "password")
@@ -38,9 +37,16 @@ public class User {
     @Column(name = "is_blocked")
     private Boolean isBlocked;
 
-    @OneToOne(mappedBy = "roleUser")
+    @Column(name = "subscribe_expire")
+    private LocalDate subscribeExpireDate;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_role", referencedColumnName = "id")
+    @EqualsAndHashCode.Exclude
     private Role role;
 
-    @OneToOne(mappedBy = "subscribeUser")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_subscriber", referencedColumnName = "id")
+    @EqualsAndHashCode.Exclude
     private Subscribe subscribe;
 }

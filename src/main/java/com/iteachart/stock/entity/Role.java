@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "User_Role")
@@ -20,8 +22,7 @@ public class Role {
     @Column(name = "role")
     private String role;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_role", referencedColumnName = "id")
-    private User roleUser;
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+    private List<User> roleUser = new ArrayList<>();
 
 }

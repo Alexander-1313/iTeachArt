@@ -1,11 +1,11 @@
 package com.iteachart.stock.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.*;
 
 @Entity
 @Table(name = "Subscribe")
@@ -24,8 +24,8 @@ public class Subscribe {
     @Column(name = "cost")
     private BigDecimal cost;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_subscriber", referencedColumnName = "id")
-    private User subscribeUser;
+    @OneToMany(mappedBy = "subscribe", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    private Set<User> subscribeUser = new HashSet<>();
 
 }
