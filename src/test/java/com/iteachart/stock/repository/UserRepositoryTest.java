@@ -11,6 +11,8 @@ import org.springframework.test.context.event.annotation.BeforeTestMethod;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
@@ -27,7 +29,7 @@ public class UserRepositoryTest {
     @Test
     public void testSaveUser(){
         User user = new User();
-        user.setEmail("alexander.rybak2020@mail.ru");
+        user.setEmail("riwoeur@mail.ru");
 
         User actual = userRepository.save(user);
         assertNotNull(actual);
@@ -61,6 +63,10 @@ public class UserRepositoryTest {
 
         Role role = new Role();
         role.setRole("ROLE_US");
+
+        List<User> roleUser = role.getRoleUser();
+        roleUser.add(user);
+        role.setRoleUser(roleUser);
 
         roleRepository.save(role);
 
