@@ -1,5 +1,6 @@
 package com.iteachart.stock.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,15 +39,19 @@ public class Company {
     private String cik;
 
     @OneToMany(mappedBy = "companyNewsCompany", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<CompanyNews> companyNews = new ArrayList<>();
 
     @OneToMany(mappedBy = "financialReportCompany", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<FinancialReport> financialReports = new ArrayList<>();
 
     @OneToMany(mappedBy = "companySharesCompany", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<CompanyShares> companyShares = new ArrayList<>();
 
     @OneToMany(mappedBy = "candleCompany", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Candle> candles = new ArrayList<>();
 
 }

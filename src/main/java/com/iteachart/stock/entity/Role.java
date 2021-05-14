@@ -3,6 +3,7 @@ package com.iteachart.stock.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class Role {
     private String role;
 
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<User> roleUser = new ArrayList<>();
 
 }
