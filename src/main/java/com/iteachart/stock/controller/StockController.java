@@ -32,11 +32,6 @@ public class StockController {
         return stockFeignClient.getCompany(symbol);
     }
 
-    @Scheduled(fixedRate = 10000)
-    public void testScheduling(){
-        System.out.println(stockFeignClient.getCompany("AAPL"));
-    }
-
     @GetMapping("/financialReport")
     public FinancialReportDto getFinancialReport(@RequestParam String symbol){
         return stockFeignClient.getFinancialReport(symbol);
