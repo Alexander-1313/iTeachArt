@@ -12,4 +12,6 @@ public class StringConstant {
 
     public static final String SUBSCRIBE_SUBJECT = "SUBSCRIBE";
 
+    public static final String JWT_SECREAT = "rybak";
+
 }

@@ -27,7 +27,7 @@ public class SchedulerService {
         System.out.println(stockFeignClient.getCompanyShares("AAPL"));
     }
 
-    @Scheduled(fixedRate = 1000000)
+//    @Scheduled(fixedRate = 1000000)
     public void notifyUserAboutSubscribe(){
         List<User> allUsers = userRepository.findAll();
         for(User user: allUsers){
