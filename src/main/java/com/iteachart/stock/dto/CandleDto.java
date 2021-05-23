@@ -1,5 +1,6 @@
 package com.iteachart.stock.dto;
 
+import com.iteachart.stock.entity.Candle;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,4 +19,10 @@ public class CandleDto {
     private String s;
     private List<String> t;
     private List<String> v;
+
+    public static Candle fromDtoToEntity(CandleDto candleDto){
+        Candle candle = new Candle();
+//        candle.setLowPrice(l);
+        return candle;
+    }
 }

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -32,7 +33,7 @@ public class Candle {
     private BigDecimal highPrice;
 
     @Column(name = "datetime")
-    private Date datetime;
+    private LocalDate datetime;
 
     @Column(name = "volume_data")
     private Long volumeData;
