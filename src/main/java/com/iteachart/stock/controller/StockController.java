@@ -2,56 +2,62 @@ package com.iteachart.stock.controller;
 
 import com.iteachart.stock.dto.CandleDto;
 import com.iteachart.stock.dto.CompanyDto;
-import com.iteachart.stock.dto.FinancialReportDto;
 import com.iteachart.stock.entity.*;
 import com.iteachart.stock.feign.StockFeignClient;
+import com.iteachart.stock.service.*;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @Slf4j
+@RequiredArgsConstructor
 public class StockController {
 
-    @Autowired
-    private StockFeignClient stockFeignClient;
+    private final CompanyService companyService;
+    private final FinancialReportService financialReportService;
+    private final SharesService sharesService;
+    private final CompanyNewsService companyNewsService;
+    private final CandleService candleService;
 
     @GetMapping("/all")
-    public List<CompanyDto> getAllCompanies(@RequestParam String exchange){
-        return stockFeignClient.getAllCompanies(exchange);
+    public List<Company> getAllCompanies(@RequestParam String exchange){
+        return companyService.findAll();
     }
 
     @GetMapping("/company")
     public Company getCompany(@RequestParam String symbol){
-        return stockFeignClient.getCompany(symbol);
+        return companyService.findBySymbol(symbol);
     }
 
-    @GetMapping("/financialReport")
-    public FinancialReportDto getFinancialReport(@RequestParam String symbol){
-        return stockFeignClient.getFinancialReport(symbol);
+    @GetMapping("/financialReports")
+    public List<FinancialReport> getFinancialReport(@RequestParam String symbol){
+        return financialReportService.findAllBySymbol(symbol);
     }
 
     @GetMapping("/news")
     public List<CompanyNews> getCompanyNews(@RequestParam String symbol,
                                             @RequestParam String from,
                                             @RequestParam String to){
-        return stockFeignClient.getCompanyNews(symbol, from, to);
+        return companyNewsService.findAllInPeriod(symbol, LocalDate.parse(from), LocalDate.parse(to));
     }
 
     @GetMapping("/shares")
-    public CompanyShares getCompanyShares(@RequestParam String symbol){
-        return stockFeignClient.getCompanyShares(symbol);
+    public List<CompanyShares> getCompanyShares(@RequestParam String symbol){
+        return sharesService.findAllBySymbol(symbol);
     }
 
     @GetMapping("/candles")
-    public CandleDto getCompanyCandle(@RequestParam String symbol){
-        return stockFeignClient.getCompanyCandle(symbol);
+    public List<Candle> getCompanyCandle(@RequestParam String symbol,
+                                      @RequestParam String from,
+                                      @RequestParam String to){
+        return candleService.findAllInPeriod(symbol, LocalDate.parse(from), LocalDate.parse(to));
     }
 
 }
