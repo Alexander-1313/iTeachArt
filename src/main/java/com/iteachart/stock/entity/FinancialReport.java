@@ -3,6 +3,7 @@ package com.iteachart.stock.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -17,7 +18,11 @@ public class FinancialReport {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
+    @Column(name = "cik")
+    private String cik;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "company_ticker", referencedColumnName = "id")
+    @ToString.Exclude
     private Company financialReportCompany;
 }

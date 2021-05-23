@@ -38,15 +38,15 @@ public class Company {
     @Column(name = "cik")
     private String cik;
 
-    @OneToMany(mappedBy = "companyNewsCompany", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "companyNewsCompany")
     @JsonIgnore
     private List<CompanyNews> companyNews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "financialReportCompany", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "financialReportCompany")
     @JsonIgnore
     private List<FinancialReport> financialReports = new ArrayList<>();
 
-    @OneToMany(mappedBy = "companySharesCompany", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "companySharesCompany")
     @JsonIgnore
     private List<CompanyShares> companyShares = new ArrayList<>();
 

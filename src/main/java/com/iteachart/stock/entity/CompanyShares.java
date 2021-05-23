@@ -3,6 +3,7 @@ package com.iteachart.stock.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -26,7 +27,8 @@ public class CompanyShares {
     @Column(name = "share_outstanding")
     private Integer shareOutstanding;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "company_ticker", referencedColumnName = "id")
+    @ToString.Exclude
     private Company companySharesCompany;
 }
