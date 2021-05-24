@@ -34,6 +34,6 @@ public interface StockFeignClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/stock/candle?resolution=M&token=btqbebn48v6t9hdd6cog")
     CandleDto getCompanyCandle(@RequestParam String symbol,
-                               @RequestParam Integer from,
-                               @RequestParam Integer to);
+                               @RequestParam Long from,
+                               @RequestParam Long to);
 }

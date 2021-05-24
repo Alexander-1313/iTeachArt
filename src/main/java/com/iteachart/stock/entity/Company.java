@@ -38,7 +38,7 @@ public class Company {
     @Column(name = "cik")
     private String cik;
 
-    @OneToMany(mappedBy = "companyNewsCompany")
+    @OneToMany(mappedBy = "companyNewsCompany", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<CompanyNews> companyNews = new ArrayList<>();
 

@@ -11,6 +11,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @Component
@@ -25,15 +27,15 @@ public class SchedulerService {
     private final FinancialReportRepository financialReportRepository;
     private final CompanySharesRepository companySharesRepository;
     private final CompanyNewsRepository companyNewsRepository;
+    private final CandleRepository candleRepository;
 
     @Scheduled(fixedRate = 1000000)
     public void loadDataFromStock() {
         Company company = stockFeignClient.getCompany("AAPL");
-        CandleDto companyCandle = stockFeignClient.getCompanyCandle("AAPL", LocalDate.now().minusDays(1).lengthOfYear(), LocalDate.now().lengthOfYear());
+        CandleDto companyCandle = stockFeignClient.getCompanyCandle("AAPL", LocalDate.now().minusDays(100).toEpochSecond(LocalTime.MAX, ZoneOffset.UTC), LocalDate.now().toEpochSecond(LocalTime.MAX, ZoneOffset.UTC));
         FinancialReport financialReport = stockFeignClient.getFinancialReport("AAPL");
         CompanyShares companyShares = stockFeignClient.getCompanyShares("AAPL");
         List<CompanyNews> companyNews = stockFeignClient.getCompanyNews("AAPL", LocalDate.now().minusDays(1).toString(), LocalDate.now().toString());
-        System.out.println("companyNews = " + companyNews);
 
         financialReport.setFinancialReportCompany(company);
         List<FinancialReport> companyFinancialReports = company.getFinancialReports();
@@ -49,11 +51,20 @@ public class SchedulerService {
 
         for (CompanyNews news : companyNews) {
             news.setCompanyNewsCompany(company);
-            news.setId(1L);
-            companyNewsRepository.save(news);
         }
         List<CompanyNews> companyNewsList = company.getCompanyNews();
         companyNewsList.addAll(companyNews);
+        company.setCompanyNews(companyNewsList);
+
+        List<Candle> candles = CandleDto.fromDtoToEntity(companyCandle);
+        if(candles != null) {
+            for (Candle candle : candles) {
+                candle.setCandleCompany(company);
+            }
+            List<Candle> candleList = company.getCandles();
+            candleList.addAll(candles);
+            company.setCandles(candleList);
+        }
 
         companyRepository.save(company);
 

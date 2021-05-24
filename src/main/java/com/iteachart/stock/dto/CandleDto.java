@@ -5,6 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -12,17 +18,32 @@ import java.util.List;
 @Data
 public class CandleDto {
 
-    private List<String> c;
-    private List<String> h;
-    private List<String> l;
-    private List<String> o;
+    private List<BigDecimal> c;
+    private List<BigDecimal> h;
+    private List<BigDecimal> l;
+    private List<BigDecimal> o;
     private String s;
-    private List<String> t;
-    private List<String> v;
+    private List<Long> t;
+    private List<Long> v;
 
-    public static Candle fromDtoToEntity(CandleDto candleDto){
-        Candle candle = new Candle();
-//        candle.setLowPrice(l);
-        return candle;
+    public static List<Candle> fromDtoToEntity(CandleDto candleDto){
+        if(candleDto.getT() == null) return null;
+
+        List<Candle> candles = new ArrayList<>();
+        int size = candleDto.getT().size();
+
+        for(int i = 0; i < size; i++){
+            Candle candle = new Candle();
+            candle.setLowPrice(candleDto.getL().get(i));
+            candle.setClosePrice(candleDto.getC().get(i));
+            candle.setHighPrice(candleDto.getH().get(i));
+            candle.setOpenPrice(candleDto.getO().get(i));
+            candle.setDatetime(LocalDate.ofInstant(Instant.ofEpochSecond(candleDto.getT().get(i)), ZoneId.systemDefault()));
+            candle.setVolumeData(candleDto.getV().get(i));
+            candles.add(candle);
+        }
+
+        System.out.println("candles = " + candles);
+        return candles;
     }
 }
