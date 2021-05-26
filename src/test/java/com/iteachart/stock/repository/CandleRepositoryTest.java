@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,8 +23,8 @@ public class CandleRepositoryTest {
     @Autowired
     private CandleRepository candleRepository;
 
-    private String cik = "12345";
-    private String ticker = "AAPL";
+    private String cik = "123456";
+    private String ticker = "AAPL6";
 
     @Test
     public void testDeleteCompanyWithCandle(){
@@ -30,20 +32,20 @@ public class CandleRepositoryTest {
         company.setCik(cik);
         company.setTicker(ticker);
 
-
         Candle candle = new Candle();
+        candle.setVolumeData(44L);
         candle.setCandleCompany(company);
 
         List<Candle> candles = company.getCandles();
         candles.add(candle);
         company.setCandles(candles);
 
-        Candle saveCandle = candleRepository.save(candle);
         Company saveCompany = companyRepository.save(company);
 
-        companyRepository.delete(company);
+        assertTrue(candleRepository.findAll().stream().anyMatch(c -> c.getVolumeData() == 44L));
 
-        boolean actual = candleRepository.existsById(saveCandle.getId());
-        assertFalse(actual);
+        companyRepository.delete(saveCompany);
+
+        assertFalse(candleRepository.findAll().stream().anyMatch(c -> c.getVolumeData() == 44L));
     }
 }

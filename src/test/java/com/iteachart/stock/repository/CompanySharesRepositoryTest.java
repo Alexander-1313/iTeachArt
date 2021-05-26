@@ -22,8 +22,8 @@ public class CompanySharesRepositoryTest {
     @Autowired
     private CompanySharesRepository companySharesRepository;
 
-    private String cik = "12345";
-    private String ticker = "AAPL";
+    private String cik = "123454";
+    private String ticker = "AAPL4";
 
     @Test
     public void testDeleteCompanyWithCompanyNews(){
@@ -34,18 +34,19 @@ public class CompanySharesRepositoryTest {
 
         CompanyShares companyShares = new CompanyShares();
         companyShares.setCompanySharesCompany(company);
+        companyShares.setExchange("BL");
 
         List<CompanyShares> companySharesList = company.getCompanyShares();
         companySharesList.add(companyShares);
         company.setCompanyShares(companySharesList);
 
-        CompanyShares saveCompanyShares = companySharesRepository.save(companyShares);
         Company saveCompany = companyRepository.save(company);
 
-        companyRepository.delete(company);
+        assertTrue(companySharesRepository.findAll().stream().anyMatch(c->c.getExchange().equals("BL")));
 
-        boolean actual = companySharesRepository.existsById(saveCompanyShares.getId());
-        assertFalse(actual);
+        companyRepository.delete(saveCompany);
+
+        assertFalse(companySharesRepository.findAll().stream().anyMatch(c->c.getExchange().equals("BL")));
     }
 
 }

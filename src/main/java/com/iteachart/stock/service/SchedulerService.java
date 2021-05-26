@@ -41,13 +41,11 @@ public class SchedulerService {
         List<FinancialReport> companyFinancialReports = company.getFinancialReports();
         companyFinancialReports.add(financialReport);
         company.setFinancialReports(companyFinancialReports);
-        financialReportRepository.save(financialReport);
 
         companyShares.setCompanySharesCompany(company);
         List<CompanyShares> companySharesList = company.getCompanyShares();
         companySharesList.add(companyShares);
         company.setCompanyShares(companySharesList);
-        companySharesRepository.save(companyShares);
 
         for (CompanyNews news : companyNews) {
             news.setCompanyNewsCompany(company);

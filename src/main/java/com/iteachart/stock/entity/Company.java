@@ -42,11 +42,11 @@ public class Company {
     @JsonIgnore
     private List<CompanyNews> companyNews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "financialReportCompany")
+    @OneToMany(mappedBy = "financialReportCompany", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<FinancialReport> financialReports = new ArrayList<>();
 
-    @OneToMany(mappedBy = "companySharesCompany")
+    @OneToMany(mappedBy = "companySharesCompany", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<CompanyShares> companyShares = new ArrayList<>();
 

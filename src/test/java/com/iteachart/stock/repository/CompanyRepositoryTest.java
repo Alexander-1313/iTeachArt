@@ -17,7 +17,7 @@ public class CompanyRepositoryTest {
     private CompanyRepository companyRepository;
 
     private String cik = "12345";
-    private String ticker = "AAPL";
+    private String ticker = "AAPLPEW";
 
 
     @Test
@@ -30,8 +30,6 @@ public class CompanyRepositoryTest {
 
         assertNotNull(save);
         assertEquals(cik, save.getCik());
-
-
     }
 
     @Test
@@ -41,7 +39,7 @@ public class CompanyRepositoryTest {
         company.setTicker(ticker);
 
         Company save = companyRepository.save(company);
-        companyRepository.delete(company);
+        companyRepository.delete(save);
 
         boolean actual = companyRepository.existsById(save.getTicker());
 

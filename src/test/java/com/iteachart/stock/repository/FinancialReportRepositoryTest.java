@@ -22,8 +22,8 @@ public class FinancialReportRepositoryTest {
     @Autowired
     private FinancialReportRepository financialReportRepository;
 
-    private String cik = "12345";
-    private String ticker = "AAPL";
+    private String cik = "123453";
+    private String ticker = "AAPL3";
 
     @Test
     public void testDeleteCompanyWithCompanyNews(){
@@ -34,18 +34,20 @@ public class FinancialReportRepositoryTest {
 
         FinancialReport financialReport = new FinancialReport();
         financialReport.setFinancialReportCompany(company);
+        financialReport.setCik("111");
 
         List<FinancialReport> companyFinancialReports = company.getFinancialReports();
         companyFinancialReports.add(financialReport);
         company.setFinancialReports(companyFinancialReports);
 
-        FinancialReport saveFinancialReport = financialReportRepository.save(financialReport);
         Company saveCompany = companyRepository.save(company);
 
-        companyRepository.delete(company);
+        assertTrue(financialReportRepository.findAll().stream().anyMatch(c->c.getCik().equals("111")));
 
-        boolean actual = financialReportRepository.existsById(saveFinancialReport.getId());
-        assertFalse(actual);
+        companyRepository.delete(saveCompany);
+
+        assertFalse(financialReportRepository.findAll().stream().anyMatch(c->c.getCik().equals("111")));
+
     }
 
 }

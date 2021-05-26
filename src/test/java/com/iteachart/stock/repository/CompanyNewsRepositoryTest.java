@@ -22,8 +22,8 @@ public class CompanyNewsRepositoryTest {
     @Autowired
     private CompanyNewsRepository companyNewsRepository;
 
-    private String cik = "12345";
-    private String ticker = "AAPL";
+    private String cik = "5";
+    private String ticker = "AAPL5";
 
     @Test
     public void testDeleteCompanyWithCompanyNews(){
@@ -31,21 +31,21 @@ public class CompanyNewsRepositoryTest {
         company.setCik(cik);
         company.setTicker(ticker);
 
-
         CompanyNews companyNews = new CompanyNews();
+        companyNews.setHeadline("headline1");
         companyNews.setCompanyNewsCompany(company);
 
         List<CompanyNews> companyNewsList = company.getCompanyNews();
         companyNewsList.add(companyNews);
         company.setCompanyNews(companyNewsList);
 
-        CompanyNews saveCompanyNews = companyNewsRepository.save(companyNews);
         Company saveCompany = companyRepository.save(company);
 
-        companyRepository.delete(company);
+        assertTrue(companyNewsRepository.findAll().stream().anyMatch(c -> c.getHeadline().equals("headline1")));
 
-        boolean actual = companyNewsRepository.existsById(saveCompanyNews.getId());
-        assertFalse(actual);
+        companyRepository.delete(saveCompany);
+
+        assertFalse(companyNewsRepository.findAll().stream().anyMatch(c -> c.getHeadline().equals("headline1")));
     }
 
 }
