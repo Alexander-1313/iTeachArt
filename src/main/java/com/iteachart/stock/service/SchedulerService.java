@@ -49,6 +49,7 @@ public class SchedulerService {
 
         for (CompanyNews news : companyNews) {
             news.setCompanyNewsCompany(company);
+            news.setDatetime(LocalDate.now().minusDays(1));
         }
         List<CompanyNews> companyNewsList = company.getCompanyNews();
         companyNewsList.addAll(companyNews);
