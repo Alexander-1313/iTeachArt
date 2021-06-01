@@ -2,10 +2,8 @@ package com.iteachart.stock.service.impl;
 
 import com.iteachart.stock.entity.Candle;
 import com.iteachart.stock.entity.Company;
-import com.iteachart.stock.entity.FinancialReport;
 import com.iteachart.stock.repository.CandleRepository;
 import com.iteachart.stock.repository.CompanyRepository;
-import com.iteachart.stock.repository.FinancialReportRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;

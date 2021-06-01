@@ -1,15 +1,13 @@
 package com.iteachart.stock.repository;
 
-import com.iteachart.stock.entity.Candle;
-import com.iteachart.stock.entity.Company;
 import com.iteachart.stock.entity.CompanyNews;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,34 +16,35 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CompanyNewsRepositoryTest {
 
     @Autowired
-    private CompanyRepository companyRepository;
-    @Autowired
     private CompanyNewsRepository companyNewsRepository;
+    private CompanyNews companyNews;
 
-    private String cik = "5";
-    private String ticker = "AAPL5";
+    @Before
+    public void init(){
+        companyNews = new CompanyNews();
+        companyNews.setHeadline("headline");
+        companyNews = companyNewsRepository.save(companyNews);
+    }
+
+    @After
+    public void destroy(){
+        companyNewsRepository.deleteAll();
+    }
 
     @Test
-    public void testDeleteCompanyWithCompanyNews(){
-        Company company = new Company();
-        company.setCik(cik);
-        company.setTicker(ticker);
+    public void testDelete(){
+        companyNewsRepository.delete(companyNews);
 
-        CompanyNews companyNews = new CompanyNews();
-        companyNews.setHeadline("headline1");
-        companyNews.setCompanyNewsCompany(company);
+        assertFalse(companyNewsRepository.existsById(companyNews.getId()));
+    }
 
-        List<CompanyNews> companyNewsList = company.getCompanyNews();
-        companyNewsList.add(companyNews);
-        company.setCompanyNews(companyNewsList);
+    @Test
+    public void testSave(){
+        CompanyNews companyNewsToSave = new CompanyNews();
 
-        Company saveCompany = companyRepository.save(company);
+        CompanyNews save = companyNewsRepository.save(companyNewsToSave);
 
-        assertTrue(companyNewsRepository.findAll().stream().anyMatch(c -> c.getHeadline().equals("headline1")));
-
-        companyRepository.delete(saveCompany);
-
-        assertFalse(companyNewsRepository.findAll().stream().anyMatch(c -> c.getHeadline().equals("headline1")));
+        assertNotNull(save);
     }
 
 }

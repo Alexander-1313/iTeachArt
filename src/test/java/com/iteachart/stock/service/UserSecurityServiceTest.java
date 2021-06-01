@@ -27,7 +27,7 @@ public class UserSecurityServiceTest {
 
     @Test
     public void testLoadUser(){
-        String email = "alexander.rybak2020@mail.ru";
+        final String email = "alexander.rybak2020@mail.ru";
         UserDetails actual = userSecurityService.loadUserByUsername(email);
         User expected = new User(email, bCryptPasswordEncoder.encode("123456"), new HashSet<>(){
             {

@@ -39,7 +39,7 @@ public class Candle {
     @Column(name = "volume_data")
     private Long volumeData;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_ticker", referencedColumnName = "id")
     @ToString.Exclude
     private Company candleCompany;
