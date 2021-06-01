@@ -1,6 +1,5 @@
 package com.iteachart.stock.service.impl;
 
-import com.iteachart.stock.dto.CompanyDto;
 import com.iteachart.stock.entity.Company;
 import com.iteachart.stock.repository.CompanyRepository;
 import com.iteachart.stock.service.CompanyService;
@@ -23,5 +22,10 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public Company findBySymbol(String symbol) {
         return companyRepository.findByTicker(symbol);
+    }
+
+    @Override
+    public List<Company> findAllByCountry(String country) {
+        return companyRepository.findAllByCountry(country);
     }
 }

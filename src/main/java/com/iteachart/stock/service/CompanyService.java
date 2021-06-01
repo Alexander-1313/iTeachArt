@@ -10,4 +10,6 @@ public interface CompanyService {
     List<Company> findAll();
 
     Company findBySymbol(String symbol);
+
+    List<Company> findAllByCountry(String country);
 }

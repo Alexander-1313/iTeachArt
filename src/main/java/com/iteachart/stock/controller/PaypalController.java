@@ -2,8 +2,9 @@ package com.iteachart.stock.controller;
 
 import com.iteachart.stock.entity.Subscribe;
 import com.iteachart.stock.service.PaypalService;
+import com.iteachart.stock.util.StringConstant;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,14 +12,12 @@ import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class PaypalController {
 
     private final PaypalService service;
-
-    public static final String SUCCESS_URL = "pay/success";
-    public static final String CANCEL_URL = "pay/cancel";
 
     @GetMapping("/")
     @ResponseBody
@@ -29,29 +28,27 @@ public class PaypalController {
     @GetMapping("/pay")
     public String payment(@ModelAttribute("subscribe") Subscribe subscribe) {
         try {
-            Payment payment = service.createPayment(subscribe.getCost().doubleValue(), "USD", "paypal",
-                    "AUTHORIZE", "ddedscription", "http://localhost:8080/" + CANCEL_URL,
-                    "http://localhost:8080/" + SUCCESS_URL);
-            for(Links link:payment.getLinks()) {
-                if(link.getRel().equals("approval_url")) {
-                    return "redirect:"+link.getHref();
+            Payment payment = service.createPayment(subscribe.getCost().doubleValue(), StringConstant.CURRENCY, StringConstant.METHOD,
+                    StringConstant.INTENT, StringConstant.DESCRIPTION, StringConstant.CANCEL_URL_WITH_HOST,
+                    StringConstant.SUCCESS_URL_WITH_HOST);
+            for (Links link : payment.getLinks()) {
+                if (link.getRel().equals("approval_url")) {
+                    return "redirect:" + link.getHref();
                 }
             }
-
         } catch (PayPalRESTException e) {
-
-            e.printStackTrace();
+            log.trace(e.getMessage());
         }
         return "redirect:/";
     }
 
-    @GetMapping(value = CANCEL_URL)
+    @GetMapping(value = StringConstant.CANCEL_URL)
     @ResponseBody
     public String cancelPay() {
         return "cancel";
     }
 
-    @GetMapping(value = SUCCESS_URL)
+    @GetMapping(value = StringConstant.SUCCESS_URL)
     @ResponseBody
     public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
         try {
@@ -61,7 +58,7 @@ public class PaypalController {
                 return "success";
             }
         } catch (PayPalRESTException e) {
-            System.out.println(e.getMessage());
+            log.trace(e.getMessage());
         }
         return "redirect:/";
     }

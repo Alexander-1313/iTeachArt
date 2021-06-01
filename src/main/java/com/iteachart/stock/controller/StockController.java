@@ -1,13 +1,9 @@
 package com.iteachart.stock.controller;
 
-import com.iteachart.stock.dto.CandleDto;
-import com.iteachart.stock.dto.CompanyDto;
 import com.iteachart.stock.entity.*;
-import com.iteachart.stock.feign.StockFeignClient;
 import com.iteachart.stock.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +24,7 @@ public class StockController {
 
     @GetMapping("/all")
     public List<Company> getAllCompanies(@RequestParam String exchange){
-        return companyService.findAll();
+        return companyService.findAllByCountry(exchange);
     }
 
     @GetMapping("/company")

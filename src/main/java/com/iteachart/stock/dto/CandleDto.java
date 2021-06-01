@@ -43,7 +43,6 @@ public class CandleDto {
             candles.add(candle);
         }
 
-        System.out.println("candles = " + candles);
         return candles;
     }
 }

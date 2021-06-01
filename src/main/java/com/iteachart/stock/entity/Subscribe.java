@@ -1,5 +1,6 @@
 package com.iteachart.stock.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class Subscribe {
 
     @OneToMany(mappedBy = "subscribe", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
+    @JsonIgnore
     private Set<User> subscribeUser = new HashSet<>();
 
 }

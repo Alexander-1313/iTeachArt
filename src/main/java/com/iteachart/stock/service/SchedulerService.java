@@ -1,6 +1,7 @@
 package com.iteachart.stock.service;
 
 import com.iteachart.stock.dto.CandleDto;
+import com.iteachart.stock.dto.CompanyDto;
 import com.iteachart.stock.entity.*;
 import com.iteachart.stock.feign.StockFeignClient;
 import com.iteachart.stock.repository.*;
@@ -24,50 +25,53 @@ public class SchedulerService {
     private final StockFeignClient stockFeignClient;
     private final MailService mailService;
     private final CompanyRepository companyRepository;
-    private final FinancialReportRepository financialReportRepository;
-    private final CompanySharesRepository companySharesRepository;
-    private final CompanyNewsRepository companyNewsRepository;
-    private final CandleRepository candleRepository;
 
     @Scheduled(fixedRate = 1000000)
     public void loadDataFromStock() {
-        Company company = stockFeignClient.getCompany("AAPL");
-        CandleDto companyCandle = stockFeignClient.getCompanyCandle("AAPL", LocalDate.now().minusDays(100).toEpochSecond(LocalTime.MAX, ZoneOffset.UTC), LocalDate.now().toEpochSecond(LocalTime.MAX, ZoneOffset.UTC));
-        FinancialReport financialReport = stockFeignClient.getFinancialReport("AAPL");
-        CompanyShares companyShares = stockFeignClient.getCompanyShares("AAPL");
-        List<CompanyNews> companyNews = stockFeignClient.getCompanyNews("AAPL", LocalDate.now().minusDays(1).toString(), LocalDate.now().toString());
+        List<CompanyDto> us = stockFeignClient.getAllCompanies("US");
 
-        financialReport.setFinancialReportCompany(company);
-        List<FinancialReport> companyFinancialReports = company.getFinancialReports();
-        companyFinancialReports.add(financialReport);
-        company.setFinancialReports(companyFinancialReports);
+        for(int i =0; i < 5; i++) {
+            String symbol = us.get(i).getSymbol();
+            Company company = stockFeignClient.getCompany(symbol);
+            if(company.getTicker() == null) continue;
 
-        companyShares.setCompanySharesCompany(company);
-        List<CompanyShares> companySharesList = company.getCompanyShares();
-        companySharesList.add(companyShares);
-        company.setCompanyShares(companySharesList);
+            CandleDto companyCandle = stockFeignClient.getCompanyCandle(symbol, LocalDate.now().minusDays(100).toEpochSecond(LocalTime.MAX, ZoneOffset.UTC), LocalDate.now().toEpochSecond(LocalTime.MAX, ZoneOffset.UTC));
+            FinancialReport financialReport = stockFeignClient.getFinancialReport(symbol);
+            CompanyShares companyShares = stockFeignClient.getCompanyShares(symbol);
+            List<CompanyNews> companyNews = stockFeignClient.getCompanyNews(symbol, LocalDate.now().minusDays(1).toString(), LocalDate.now().toString());
 
-        for (CompanyNews news : companyNews) {
-            news.setCompanyNewsCompany(company);
-            news.setDatetime(LocalDate.now().minusDays(1));
-        }
-        List<CompanyNews> companyNewsList = company.getCompanyNews();
-        companyNewsList.addAll(companyNews);
-        company.setCompanyNews(companyNewsList);
+            financialReport.setFinancialReportCompany(company);
+            List<FinancialReport> companyFinancialReports = company.getFinancialReports();
+            companyFinancialReports.add(financialReport);
+            company.setFinancialReports(companyFinancialReports);
 
-        List<Candle> candles = CandleDto.fromDtoToEntity(companyCandle);
-        if(candles != null) {
-            for (Candle candle : candles) {
-                candle.setCandleCompany(company);
+            companyShares.setCompanySharesCompany(company);
+            List<CompanyShares> companySharesList = company.getCompanyShares();
+            companySharesList.add(companyShares);
+            company.setCompanyShares(companySharesList);
+
+            for (CompanyNews news : companyNews) {
+                news.setCompanyNewsCompany(company);
+                news.setDatetime(LocalDate.now().minusDays(1));
             }
-            List<Candle> candleList = company.getCandles();
-            candleList.addAll(candles);
-            company.setCandles(candleList);
+            List<CompanyNews> companyNewsList = company.getCompanyNews();
+            companyNewsList.addAll(companyNews);
+            company.setCompanyNews(companyNewsList);
+
+            List<Candle> candles = CandleDto.fromDtoToEntity(companyCandle);
+            if (candles != null) {
+                for (Candle candle : candles) {
+                    candle.setCandleCompany(company);
+                }
+                List<Candle> candleList = company.getCandles();
+                candleList.addAll(candles);
+                company.setCandles(candleList);
+            }
+
+            Company save = companyRepository.save(company);
+
+            log.info("company={} was saved to DB", save);
         }
-
-        companyRepository.save(company);
-
-        log.info("company={} was saved to DB", company);
     }
 
     @Scheduled(cron = "0 0 0 * * *")

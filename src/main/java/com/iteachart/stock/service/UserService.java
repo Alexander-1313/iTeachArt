@@ -1,14 +1,15 @@
 package com.iteachart.stock.service;
 
 import com.iteachart.stock.entity.Subscribe;
+import com.iteachart.stock.entity.User;
 
 public interface UserService {
 
-    void blockUser(String email);
+    User blockUser(String email);
 
-    void unblockUser(String email);
+    User unblockUser(String email);
 
-    void changeSubscribe(String email, Subscribe subscribe);
+    User changeSubscribe(String email, Subscribe subscribe);
 
-    void updateSubscribe(String email);
+    User updateSubscribe(String email);
 }
