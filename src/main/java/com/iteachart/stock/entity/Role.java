@@ -1,5 +1,6 @@
 package com.iteachart.stock.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ public class Role implements GrantedAuthority {
 
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
     @ToString.Exclude
+    @JsonIgnore
     private List<User> roleUser = new ArrayList<>();
 
     @Override

@@ -21,7 +21,7 @@ public class FinancialReport {
     @Column(name = "cik")
     private String cik;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_ticker", referencedColumnName = "id")
     @ToString.Exclude
     private Company financialReportCompany;

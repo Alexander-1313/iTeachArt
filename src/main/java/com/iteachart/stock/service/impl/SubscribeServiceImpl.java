@@ -1,5 +1,6 @@
 package com.iteachart.stock.service.impl;
 
+import com.iteachart.stock.entity.Subscribe;
 import com.iteachart.stock.entity.User;
 import com.iteachart.stock.repository.SubscribeRepository;
 import com.iteachart.stock.repository.UserRepository;
@@ -25,7 +26,7 @@ public class SubscribeServiceImpl implements SubscribeService {
     public boolean isValid(String email) {
         User userByEmail = userRepository.findByEmail(email);
         if(userByEmail == null){
-            log.info("user with email={} not found", email);;
+            log.info("user with email={} not found", email);
             return false;
         }
         return userByEmail.getSubscribeExpireDate().isBefore(LocalDate.now());
@@ -47,5 +48,10 @@ public class SubscribeServiceImpl implements SubscribeService {
             log.info("it's {} days to subscribe ending!", LocalDate.now().getDayOfYear() - subscribeExpireDate.getDayOfYear());
         }
 
+    }
+
+    @Override
+    public Subscribe getSubscribeByType(String type) {
+        return subscribeRepository.findByType(type);
     }
 }

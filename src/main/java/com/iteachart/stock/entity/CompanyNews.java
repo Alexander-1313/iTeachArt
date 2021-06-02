@@ -35,7 +35,7 @@ public class CompanyNews {
     @Column(name = "summary", length = 1000)
     private String summary;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_ticker", referencedColumnName = "id")
     @ToString.Exclude
     private Company companyNewsCompany;

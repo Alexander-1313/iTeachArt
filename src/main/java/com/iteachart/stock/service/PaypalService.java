@@ -5,23 +5,18 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.paypal.api.payments.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import com.paypal.api.payments.Amount;
-import com.paypal.api.payments.Payer;
-import com.paypal.api.payments.Payment;
-import com.paypal.api.payments.PaymentExecution;
-import com.paypal.api.payments.RedirectUrls;
-import com.paypal.api.payments.Transaction;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
 
 @Service
+@RequiredArgsConstructor
 public class PaypalService {
 
-    @Autowired
-    private APIContext apiContext;
+    private final APIContext apiContext;
 
 
     public Payment createPayment(
@@ -35,12 +30,9 @@ public class PaypalService {
         Amount amount = new Amount();
         amount.setCurrency(currency);
         total = new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue();
-        System.out.println("total = " + total);
         amount.setTotal(String.format("%.2f", total));
-        System.out.println("amount = " + amount);
         String s = amount.getTotal().replaceAll(",", ".");
         amount.setTotal(s);
-        System.out.println("amount = " + amount);
 
         Transaction transaction = new Transaction();
         transaction.setDescription(description);
@@ -50,10 +42,10 @@ public class PaypalService {
         transactions.add(transaction);
 
         Payer payer = new Payer();
-        payer.setPaymentMethod(method.toString());
+        payer.setPaymentMethod(method);
 
         Payment payment = new Payment();
-        payment.setIntent(intent.toString());
+        payment.setIntent(intent);
         payment.setPayer(payer);
         payment.setTransactions(transactions);
         RedirectUrls redirectUrls = new RedirectUrls();

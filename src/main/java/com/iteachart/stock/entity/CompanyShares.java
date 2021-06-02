@@ -27,7 +27,7 @@ public class CompanyShares {
     @Column(name = "share_outstanding")
     private Integer shareOutstanding;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_ticker", referencedColumnName = "id")
     @ToString.Exclude
     private Company companySharesCompany;

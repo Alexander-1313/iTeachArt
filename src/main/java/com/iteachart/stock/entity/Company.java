@@ -17,7 +17,7 @@ import java.util.List;
 public class Company {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false, unique = true)
     private String ticker;
 
     @Column(name = "country")

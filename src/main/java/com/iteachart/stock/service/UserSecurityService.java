@@ -1,11 +1,9 @@
 package com.iteachart.stock.service;
 
 import com.iteachart.stock.entity.User;
-import com.iteachart.stock.repository.RoleRepository;
 import com.iteachart.stock.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,7 +15,6 @@ import org.springframework.stereotype.Service;
 public class UserSecurityService implements UserDetailsService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
