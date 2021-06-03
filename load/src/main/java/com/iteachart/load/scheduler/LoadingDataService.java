@@ -3,7 +3,11 @@ package com.iteachart.load.scheduler;
 import com.iteachart.load.feign.StockFeignClient;
 import com.iteachart.model.dto.CandleDto;
 import com.iteachart.model.dto.CompanyDto;
-import com.iteachart.model.entity.*;
+import com.iteachart.model.entity.Candle;
+import com.iteachart.model.entity.Company;
+import com.iteachart.model.entity.CompanyNews;
+import com.iteachart.model.entity.CompanyShares;
+import com.iteachart.model.entity.FinancialReport;
 import com.iteachart.model.repository.CompanyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +31,7 @@ public class LoadingDataService {
     public void loadDataFromStock() {
         List<CompanyDto> us = stockFeignClient.getAllCompanies("US");
 
-        for(int i =0; i < 5; i++) {
+        for(int i =0; i < 10; i++) {
             String symbol = us.get(i).getSymbol();
             Company company = stockFeignClient.getCompany(symbol);
             if(company.getTicker() == null) continue;
@@ -69,7 +73,7 @@ public class LoadingDataService {
 
             log.info("company={} was saved to DB", save);
         }
-
+        log.info("loading data from finnhub was ended!");
     }
 
 }

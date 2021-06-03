@@ -1,6 +1,5 @@
 package com.iteachart.model.service;
 
-import com.iteachart.model.entity.Subscribe;
 import com.iteachart.model.entity.User;
 
 public interface UserService {
@@ -9,7 +8,7 @@ public interface UserService {
 
     User unblockUser(String email);
 
-    User changeSubscribe(String email, Subscribe subscribe);
+    User changeSubscribeStatus(String email, Boolean status);
 
     User updateSubscribe(String email);
 }

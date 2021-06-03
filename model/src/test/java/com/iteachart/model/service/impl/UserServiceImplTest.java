@@ -55,16 +55,16 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void testChangeSubscribe() {
+    public void testChangeSubscribeStatus() {
         User user = new User();
         user.setEmail("qwer3@gmail.com");
-        user.setIsBlocked(true);
+        user.setSubscribeEnabled(true);
 
         User saveUser = userRepository.save(user);
 
-        userService.changeSubscribe(saveUser.getEmail(), subscribeRepository.getOne(2L));
+        userService.changeSubscribeStatus(saveUser.getEmail(), false);
 
-        assertEquals(subscribeRepository.findById(2L).get(), userRepository.findByEmail(saveUser.getEmail()).getSubscribe());
+        assertFalse(userRepository.getOne(saveUser.getId()).getSubscribeEnabled());
     }
 
     @Test

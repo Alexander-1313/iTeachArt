@@ -21,9 +21,9 @@
     </properties>
 
     <modules>
+        <module>model</module>
         <module>load</module>
         <module>web</module>
-        <module>model</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -119,6 +119,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <mainClass>com.iteachart.web.WebApplication</mainClass>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>

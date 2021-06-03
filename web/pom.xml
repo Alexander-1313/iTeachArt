@@ -37,11 +37,7 @@
             </exclusions>
         </dependency>
 
-        <dependency>
-            <groupId>com.iteachart</groupId>
-            <artifactId>model</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+
         <dependency>
             <groupId>com.iteachart</groupId>
             <artifactId>load</artifactId>
@@ -55,6 +51,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>
+                    com.iteachart.web.WebApplication
+                    </mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>

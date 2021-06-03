@@ -1,6 +1,5 @@
 package com.iteachart.model.service.impl;
 
-import com.iteachart.model.entity.Subscribe;
 import com.iteachart.model.entity.User;
 import com.iteachart.model.repository.SubscribeRepository;
 import com.iteachart.model.repository.UserRepository;
@@ -11,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Set;
 
 @Service
 @Slf4j
@@ -48,23 +46,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User changeSubscribe(String email, Subscribe subscribe) {
+    public User changeSubscribeStatus(String email, Boolean status) {
         User userByEmail = userRepository.findByEmail(email);
         if (userByEmail == null) {
             log.info("user with email={} not found", email);
             return null;
         }else{
-            userByEmail.setSubscribe(subscribe);
-            userByEmail.setSubscribeExpireDate(LocalDate.now().plusDays(UserUtils.subscribeDuration));
-
-            Subscribe subscribeFromRepo = subscribeRepository.findById(subscribe.getId()).get();
-            Set<User> subscribeUser = subscribeFromRepo.getSubscribeUser();
-            subscribeUser.add(userByEmail);
-            subscribeFromRepo.setSubscribeUser(subscribeUser);
+            userByEmail.setSubscribeEnabled(status);
             User save = userRepository.save(userByEmail);
-            subscribeRepository.save(subscribeFromRepo);
-
-            log.info("subscribe was changed!");
+            log.info("subscribe status was changed!");
             return save;
         }
     }

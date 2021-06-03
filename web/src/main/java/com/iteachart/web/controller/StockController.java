@@ -1,7 +1,15 @@
 package com.iteachart.web.controller;
 
-import com.iteachart.model.entity.*;
-import com.iteachart.model.service.*;
+import com.iteachart.model.entity.Candle;
+import com.iteachart.model.entity.Company;
+import com.iteachart.model.entity.CompanyNews;
+import com.iteachart.model.entity.CompanyShares;
+import com.iteachart.model.entity.FinancialReport;
+import com.iteachart.model.service.CandleService;
+import com.iteachart.model.service.CompanyNewsService;
+import com.iteachart.model.service.CompanyService;
+import com.iteachart.model.service.FinancialReportService;
+import com.iteachart.model.service.SharesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

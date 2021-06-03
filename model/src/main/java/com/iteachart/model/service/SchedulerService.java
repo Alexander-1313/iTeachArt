@@ -1,6 +1,6 @@
 package com.iteachart.model.service;
 
-import com.iteachart.model.entity.*;
+import com.iteachart.model.entity.User;
 import com.iteachart.model.repository.UserRepository;
 import com.iteachart.model.util.StringConstant;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class SchedulerService {
         for(User user: allUsers){
             if(user.getSubscribeExpireDate().isAfter(LocalDate.now())){
                 mailService.sendEmail(user.getEmail(), StringConstant.SUBSCRIBE_SUBJECT, StringConstant.ENDING_TEXT);
-                user.setIsBlocked(true);
+                user.setSubscribeEnabled(false);
                 log.info("notify user with email={} about his end subscribe", user.getEmail());
             }else if(LocalDate.now().minusDays(2L).isAfter(user.getSubscribeExpireDate())){
                 mailService.sendEmail(user.getEmail(), StringConstant.SUBSCRIBE_SUBJECT, StringConstant.ENDING_TEXT);

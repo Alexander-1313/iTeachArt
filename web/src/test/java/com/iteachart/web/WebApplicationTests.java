@@ -7,11 +7,6 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@ComponentScan(basePackages = {"com.iteachart.model"})
 class WebApplicationTests {
-
-    @Test
-    void contextLoads() {
-    }
 
 }
