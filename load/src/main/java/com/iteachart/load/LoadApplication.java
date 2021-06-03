@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableFeignClients
 @SpringBootApplication
 @EnableScheduling
-@ComponentScan(basePackages = {"com.iteachart.model"})
+@ComponentScan(basePackages = {"com.iteachart.model", "com.iteachart.load"})
 public class LoadApplication {
 
     public static void main(String[] args) {

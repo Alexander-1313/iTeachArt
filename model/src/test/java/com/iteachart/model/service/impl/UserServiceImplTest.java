@@ -19,7 +19,7 @@ import java.util.Set;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
+@SpringBootTest
 @ActiveProfiles("test")
 public class UserServiceImplTest {
 
@@ -64,7 +64,7 @@ public class UserServiceImplTest {
 
         userService.changeSubscribeStatus(saveUser.getEmail(), false);
 
-        assertFalse(userRepository.getOne(saveUser.getId()).getSubscribeEnabled());
+        assertFalse(userRepository.findById(saveUser.getId()).get().getSubscribeEnabled());
     }
 
     @Test

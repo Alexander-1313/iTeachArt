@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
+@SpringBootTest
 @ActiveProfiles("test")
 public class UserRepositoryTest {
 

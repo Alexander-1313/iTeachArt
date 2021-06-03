@@ -1,4 +1,4 @@
-package com.iteachart.web.configuration;
+package com.iteachart.model.configuration;
 
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.OAuthTokenCredential;

@@ -1,6 +1,6 @@
-package com.iteachart.web.configuration;
+package com.iteachart.model.configuration;
 
-import com.iteachart.web.configuration.jwt.JwtFilter;
+import com.iteachart.model.configuration.jwt.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

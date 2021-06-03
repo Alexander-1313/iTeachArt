@@ -17,7 +17,6 @@ import java.time.LocalDate;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final SubscribeRepository subscribeRepository;
 
     @Override
     public User blockUser(String email) {

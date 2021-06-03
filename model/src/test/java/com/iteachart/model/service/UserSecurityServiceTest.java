@@ -4,7 +4,6 @@ import com.iteachart.model.repository.RoleRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +16,7 @@ import java.util.HashSet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
+@SpringBootTest
 @ActiveProfiles("test")
 public class UserSecurityServiceTest {
 

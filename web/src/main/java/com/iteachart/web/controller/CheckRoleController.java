@@ -1,6 +1,6 @@
 package com.iteachart.web.controller;
 
-import com.iteachart.web.configuration.jwt.JwtProvider;
+import com.iteachart.model.configuration.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

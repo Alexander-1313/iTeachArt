@@ -7,6 +7,7 @@
         <artifactId>iteachart</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+    <packaging>jar</packaging>
 
     <groupId>com.iteachart</groupId>
     <artifactId>model</artifactId>
@@ -38,13 +39,5 @@
 
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

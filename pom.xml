@@ -16,6 +16,8 @@
     <description>Demo project for Spring Boot</description>
 
     <properties>
+        <maven.compile.source>11</maven.compile.source>
+        <maven.compile.target>11</maven.compile.target>
         <java.version>11</java.version>
         <spring-cloud.version>Hoxton.SR5</spring-cloud.version>
     </properties>
@@ -113,22 +115,6 @@
     </dependencyManagement>
 
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>com.iteachart.web.WebApplication</mainClass>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+
 
 </project>

@@ -8,6 +8,7 @@
         <artifactId>iteachart</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+    <packaging>jar</packaging>
 
     <groupId>com.iteachart</groupId>
     <artifactId>web</artifactId>
@@ -37,13 +38,23 @@
             </exclusions>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
 
+        <dependency>
+            <groupId>com.iteachart</groupId>
+            <artifactId>model</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>com.iteachart</groupId>
             <artifactId>load</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -51,11 +62,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>
-                    com.iteachart.web.WebApplication
-                    </mainClass>
-                </configuration>
             </plugin>
         </plugins>
     </build>

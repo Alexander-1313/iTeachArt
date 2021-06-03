@@ -1,4 +1,4 @@
-package com.iteachart.web.configuration.jwt;
+package com.iteachart.model.configuration.jwt;
 
 import com.iteachart.model.util.StringConstant;
 import io.jsonwebtoken.Claims;
