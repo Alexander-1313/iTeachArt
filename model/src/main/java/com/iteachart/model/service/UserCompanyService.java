@@ -25,4 +25,6 @@ public interface UserCompanyService {
     List<CompanyShares> getSharesByCompany(String email, String company);
 
     List<CompanyNews> getNewsByCompany(String email, String company);
+
+    User removeCompanyFromUser(String email, String symbol);
 }

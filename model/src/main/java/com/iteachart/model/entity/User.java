@@ -100,7 +100,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return !getIsBlocked();
+        return true;
     }
 
     @Override
@@ -110,6 +110,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return getSubscribeEnabled();
+        return true;
     }
 }

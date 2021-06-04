@@ -30,7 +30,7 @@ public class UserCompanyServiceImpl implements UserCompanyService {
         User userByEmail = userRepository.findByEmail(email);
 
         if(!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() == 2){
-            log.info("cant add company to user with email={}, because user haven't subscribe", email);
+            log.info("cant add company to user with email={}, because user isn't subscribed", email);
             return null;
         }
 
@@ -48,41 +48,75 @@ public class UserCompanyServiceImpl implements UserCompanyService {
     @Override
     public Set<Company> getAllCompaniesByUser(String email) {
         User userByEmail = userRepository.findByEmail(email);
+        System.out.println("userByEmail.getCompanies().size() = " + userByEmail.getCompanies().size());
+        System.out.println("!userByEmail.getSubscribeEnabled() = " + !userByEmail.getSubscribeEnabled());
+        if(!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() >= 3){
+            log.info("user with email={} have so many companies. Please, buy subscribe or remove companies to size 2.", email);
+            return null;
+        }
         return userByEmail.getCompanies();
     }
 
     @Override
     public Company getCompanyBySymbol(String email, String company) {
         User userByEmail = userRepository.findByEmail(email);
-        Company userCompany = userByEmail.getCompanies().stream().filter(c -> c.getName().equals(company)).findFirst().get();
-        return userCompany;
+        if(!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() >= 3){
+            log.info("user with email={} have so many companies. Please, buy subscribe or remove companies to size 2.", email);
+            return null;
+        }
+        return userByEmail.getCompanies().stream().filter(c -> c.getName().equals(company)).findFirst().orElse(new Company());
     }
 
     @Override
     public List<FinancialReport> getFinancialReportByCompany(String email, String company) {
         User userByEmail = userRepository.findByEmail(email);
-        Company userCompany = userByEmail.getCompanies().stream().filter(c -> c.getName().equals(company)).findFirst().get();
+        if(!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() >= 3){
+            log.info("user with email={} have so many companies. Please, buy subscribe or remove companies to size 2.", email);
+            return null;
+        }
+        Company userCompany = userByEmail.getCompanies().stream().filter(c -> c.getName().equals(company)).findFirst().orElse(new Company());
         return userCompany.getFinancialReports();
     }
 
     @Override
     public List<Candle> getCandleByCompany(String email, String company) {
         User userByEmail = userRepository.findByEmail(email);
-        Company userCompany = userByEmail.getCompanies().stream().filter(c -> c.getName().equals(company)).findFirst().get();
+        if(!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() >= 3){
+            log.info("user with email={} have so many companies. Please, buy subscribe or remove companies to size 2.", email);
+            return null;
+        }
+        Company userCompany = userByEmail.getCompanies().stream().filter(c -> c.getName().equals(company)).findFirst().orElse(new Company());
         return userCompany.getCandles();
     }
 
     @Override
     public List<CompanyShares> getSharesByCompany(String email, String company) {
         User userByEmail = userRepository.findByEmail(email);
-        Company userCompany = userByEmail.getCompanies().stream().filter(c -> c.getName().equals(company)).findFirst().get();
+        if(!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() >= 3){
+            log.info("user with email={} have so many companies. Please, buy subscribe or remove companies to size 2.", email);
+            return null;
+        }
+        Company userCompany = userByEmail.getCompanies().stream().filter(c -> c.getName().equals(company)).findFirst().orElse(new Company());
         return userCompany.getCompanyShares();
     }
 
     @Override
     public List<CompanyNews> getNewsByCompany(String email, String company) {
         User userByEmail = userRepository.findByEmail(email);
-        Company userCompany = userByEmail.getCompanies().stream().filter(c -> c.getName().equals(company)).findFirst().get();
+        if(!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() >= 3){
+            log.info("user with email={} have so many companies. Please, buy subscribe or remove companies to size 2.", email);
+            return null;
+        }
+        Company userCompany = userByEmail.getCompanies().stream().filter(c -> c.getName().equals(company)).findFirst().orElse(new Company());
         return userCompany.getCompanyNews();
+    }
+
+    @Override
+    public User removeCompanyFromUser(String email, String company) {
+        User userByEmail = userRepository.findByEmail(email);
+        Company companyByName = companyRepository.findByName(company);
+        userByEmail.getCompanies().remove(companyByName);
+        User save = userRepository.save(userByEmail);
+        return save;
     }
 }

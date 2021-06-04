@@ -1,7 +1,6 @@
 package com.iteachart.model.service.impl;
 
 import com.iteachart.model.entity.User;
-import com.iteachart.model.repository.SubscribeRepository;
 import com.iteachart.model.repository.UserRepository;
 import com.iteachart.model.service.UserService;
 import com.iteachart.model.util.UserUtils;
@@ -46,6 +45,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User changeSubscribeStatus(String email, Boolean status) {
+        System.out.println("email = " + email);
+        System.out.println("status = " + status);
         User userByEmail = userRepository.findByEmail(email);
         if (userByEmail == null) {
             log.info("user with email={} not found", email);

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/admin")
+@RestController
 @RequiredArgsConstructor
 @Slf4j
 public class AdminController {
@@ -16,23 +16,23 @@ public class AdminController {
     private final UserService userService;
 
     @PostMapping("/block")
-    public User blockUser(@RequestParam("email") String email){
-        return userService.blockUser(email);
+    public User blockUser(@RequestParam String user){
+        return userService.blockUser(user);
     }
 
     @PostMapping("/unblock")
-    public User unblockUser(@RequestParam("email") String email){
-        return userService.unblockUser(email);
+    public User unblockUser(@RequestParam String user){
+        return userService.unblockUser(user);
     }
 
-    @PostMapping("/changeSubscribe")
-    public User changeSubscribeStatus(@RequestParam("email") String email,
-                                @RequestParam("status") Boolean status){
-        return userService.changeSubscribeStatus(email, status);
+    @PostMapping("/admin/changeSubscribe")
+    public User changeSubscribeStatus(@RequestParam String user,
+                                      @RequestParam Boolean status){
+        return userService.changeSubscribeStatus(user, status);
     }
 
     @PostMapping("/updateSubscribe")
-    public User updateSubscribe(@RequestParam("email") String email){
-        return userService.updateSubscribe(email);
+    public User updateSubscribe(@RequestParam String user){
+        return userService.updateSubscribe(user);
     }
 }
