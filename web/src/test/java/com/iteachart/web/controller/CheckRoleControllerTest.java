@@ -62,7 +62,7 @@ public class CheckRoleControllerTest {
     @Test
     public void testAuthToUserControllerShouldReturnForbidden() throws Exception{
         mvc.perform(get("/user").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isOk());
     }
 
 }

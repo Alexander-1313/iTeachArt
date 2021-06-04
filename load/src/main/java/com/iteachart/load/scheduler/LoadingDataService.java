@@ -29,6 +29,7 @@ public class LoadingDataService {
 
     @Scheduled(fixedRate = 1000000)
     public void loadDataFromStock() {
+        log.info("loading data from finnhub was started");
         List<CompanyDto> us = stockFeignClient.getAllCompanies("US");
 
         for(int i =0; i < 10; i++) {

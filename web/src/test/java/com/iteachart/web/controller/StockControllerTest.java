@@ -25,7 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles("test")
-@ComponentScan(basePackages = {"com.iteachart.model", "com.iteachart.load", "com.iteachart.web"})
 public class StockControllerTest {
 
     @Autowired
@@ -41,35 +40,35 @@ public class StockControllerTest {
                 .build();
     }
 
-    @WithMockUser(roles = {"USER", "ADMIN"})
+    @WithMockUser(username = "alexander.rybak2020@mail.ru")
     @Test
     public void testAutoToUserControllerToGetCompanyData() throws Exception{
         mvc.perform(get("/company").param("symbol", "AAPL").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
-    @WithMockUser(roles = {"USER", "ADMIN"})
+    @WithMockUser(username = "alexander.rybak2020@mail.ru")
     @Test
     public void testAutoToUserControllerToGetAllCompanies() throws Exception{
         mvc.perform(get("/all").param("exchange", "US").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
-    @WithMockUser(roles = {"USER", "ADMIN"})
+    @WithMockUser(username = "alexander.rybak2020@mail.ru")
     @Test
     public void testAutoToUserControllerToGetFinancialReports() throws Exception{
         mvc.perform(get("/financialReports").param("symbol", "AAPL").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
-    @WithMockUser(roles = {"USER", "ADMIN"})
+    @WithMockUser(username = "alexander.rybak2020@mail.ru")
     @Test
     public void testAutoToUserControllerToGetShares() throws Exception{
         mvc.perform(get("/shares").param("symbol", "AAPL").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
-    @WithMockUser(roles = {"USER", "ADMIN"})
+    @WithMockUser(username = "alexander.rybak2020@mail.ru")
     @Test
     public void testAutoToUserControllerToGetNews() throws Exception{
         MultiValueMap params = new LinkedMultiValueMap();
@@ -81,7 +80,7 @@ public class StockControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @WithMockUser(roles = {"USER", "ADMIN"})
+    @WithMockUser(username = "alexander.rybak2020@mail.ru")
     @Test
     public void testAutoToUserControllerToGetCandles() throws Exception{
         MultiValueMap params = new LinkedMultiValueMap();
