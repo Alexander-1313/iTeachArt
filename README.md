@@ -58,7 +58,7 @@
         "id": 8
     }
 		]</pre><br>
-		3) запрос:POST localhost:8080/admin/changeSubscribe?user=alexander.rybak2020@mail.ru&status=false
+		3) запрос:POST localhost:8080/admin/changeSubscribe?user=alexander.rybak2020@mail.ru&status=false<br>
 		ответ:
 		<pre>
 			{
