@@ -51,5 +51,4 @@ public class JwtProvider {
         Claims claims = Jwts.parser().setSigningKey(StringConstant.JWT_SECREAT).parseClaimsJws(token).getBody();
         return claims.getSubject();
     }
-
 }

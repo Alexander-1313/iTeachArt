@@ -40,5 +40,4 @@ public class Subscribe {
     @EqualsAndHashCode.Exclude
     @JsonIgnore
     private Set<User> subscribeUser = new HashSet<>();
-
 }

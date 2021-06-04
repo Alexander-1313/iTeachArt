@@ -20,21 +20,19 @@ public class SchedulerService {
     private final MailService mailService;
 
     @Scheduled(cron = "0 0 0 * * *")
-    public void notifyUserAboutSubscribe(){
+    public void notifyUserAboutSubscribe() {
         List<User> allUsers = userRepository.findAll();
-        for(User user: allUsers){
-            if(user.getSubscribeExpireDate().isAfter(LocalDate.now())){
+        for (User user : allUsers) {
+            if (user.getSubscribeExpireDate().isAfter(LocalDate.now())) {
                 mailService.sendEmail(user.getEmail(), StringConstant.SUBSCRIBE_SUBJECT, StringConstant.ENDING_TEXT);
                 user.setSubscribeEnabled(false);
                 log.info("notify user with email={} about his end subscribe", user.getEmail());
-            }else if(LocalDate.now().minusDays(2L).isAfter(user.getSubscribeExpireDate())){
+            } else if (LocalDate.now().minusDays(2L).isAfter(user.getSubscribeExpireDate())) {
                 mailService.sendEmail(user.getEmail(), StringConstant.SUBSCRIBE_SUBJECT, StringConstant.ENDING_TEXT);
                 log.info("notify user with={} about soon ending of subscribe", user.getEmail());
-            }else{
+            } else {
                 log.info("user with email={} is subscribed", user.getEmail());
             }
         }
-
     }
-
 }

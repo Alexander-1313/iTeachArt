@@ -46,6 +46,4 @@ public class CompanyNews {
     @JoinColumn(name = "company_ticker", referencedColumnName = "id")
     @ToString.Exclude
     private Company companyNewsCompany;
-
-
 }

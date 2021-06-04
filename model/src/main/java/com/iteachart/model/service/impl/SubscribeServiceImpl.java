@@ -25,7 +25,7 @@ public class SubscribeServiceImpl implements SubscribeService {
     @Override
     public boolean isValid(String email) {
         User userByEmail = userRepository.findByEmail(email);
-        if(userByEmail == null){
+        if (userByEmail == null) {
             log.info("user with email={} not found", email);
             return false;
         }
@@ -36,18 +36,17 @@ public class SubscribeServiceImpl implements SubscribeService {
     public void subscribeNotification(String email) {
         User userByEmail = userRepository.findByEmail(email);
         LocalDate subscribeExpireDate = userByEmail.getSubscribeExpireDate();
-        if(subscribeExpireDate.minusDays(2).isBefore(LocalDate.now()) && subscribeExpireDate.isAfter(LocalDate.now().minusDays(2))){
+        if (subscribeExpireDate.minusDays(2).isBefore(LocalDate.now()) && subscribeExpireDate.isAfter(LocalDate.now().minusDays(2))) {
             mailService.sendEmail(email, StringConstant.SUBSCRIBE_SUBJECT, StringConstant.SOON_ENDING_TEXT);
             log.info("user subscribe with email={} is soon ending", email);
-        }else if(subscribeExpireDate.isAfter(LocalDate.now())){
+        } else if (subscribeExpireDate.isAfter(LocalDate.now())) {
             mailService.sendEmail(email, StringConstant.SUBSCRIBE_SUBJECT, StringConstant.ENDING_TEXT);
             userByEmail.setIsBlocked(true);
             userRepository.save(userByEmail);
             log.info("user subscribe with email={} is ended", email);
-        }else{
+        } else {
             log.info("it's {} days to subscribe ending!", LocalDate.now().getDayOfYear() - subscribeExpireDate.getDayOfYear());
         }
-
     }
 
     @Override

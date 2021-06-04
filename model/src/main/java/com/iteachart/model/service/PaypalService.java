@@ -59,13 +59,12 @@ public class PaypalService {
         return payment.create(apiContext);
     }
 
-    public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException{
+    public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException {
         Payment payment = new Payment();
         payment.setId(paymentId);
         PaymentExecution paymentExecute = new PaymentExecution();
         paymentExecute.setPayerId(payerId);
         return payment.execute(apiContext, paymentExecute);
     }
-
 }
 

@@ -29,7 +29,7 @@ public class UserCompanyServiceImpl implements UserCompanyService {
         Company companyByName = companyRepository.findByName(company);
         User userByEmail = userRepository.findByEmail(email);
 
-        if(!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() == 2){
+        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() == 2) {
             log.info("cant add company to user with email={}, because user isn't subscribed", email);
             return null;
         }
@@ -50,7 +50,7 @@ public class UserCompanyServiceImpl implements UserCompanyService {
         User userByEmail = userRepository.findByEmail(email);
         System.out.println("userByEmail.getCompanies().size() = " + userByEmail.getCompanies().size());
         System.out.println("!userByEmail.getSubscribeEnabled() = " + !userByEmail.getSubscribeEnabled());
-        if(!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() >= 3){
+        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() >= 3) {
             log.info("user with email={} have so many companies. Please, buy subscribe or remove companies to size 2.", email);
             return null;
         }
@@ -60,7 +60,7 @@ public class UserCompanyServiceImpl implements UserCompanyService {
     @Override
     public Company getCompanyBySymbol(String email, String company) {
         User userByEmail = userRepository.findByEmail(email);
-        if(!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() >= 3){
+        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() >= 3) {
             log.info("user with email={} have so many companies. Please, buy subscribe or remove companies to size 2.", email);
             return null;
         }
@@ -70,7 +70,7 @@ public class UserCompanyServiceImpl implements UserCompanyService {
     @Override
     public List<FinancialReport> getFinancialReportByCompany(String email, String company) {
         User userByEmail = userRepository.findByEmail(email);
-        if(!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() >= 3){
+        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() >= 3) {
             log.info("user with email={} have so many companies. Please, buy subscribe or remove companies to size 2.", email);
             return null;
         }
@@ -81,7 +81,7 @@ public class UserCompanyServiceImpl implements UserCompanyService {
     @Override
     public List<Candle> getCandleByCompany(String email, String company) {
         User userByEmail = userRepository.findByEmail(email);
-        if(!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() >= 3){
+        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() >= 3) {
             log.info("user with email={} have so many companies. Please, buy subscribe or remove companies to size 2.", email);
             return null;
         }
@@ -92,7 +92,7 @@ public class UserCompanyServiceImpl implements UserCompanyService {
     @Override
     public List<CompanyShares> getSharesByCompany(String email, String company) {
         User userByEmail = userRepository.findByEmail(email);
-        if(!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() >= 3){
+        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() >= 3) {
             log.info("user with email={} have so many companies. Please, buy subscribe or remove companies to size 2.", email);
             return null;
         }
@@ -103,7 +103,7 @@ public class UserCompanyServiceImpl implements UserCompanyService {
     @Override
     public List<CompanyNews> getNewsByCompany(String email, String company) {
         User userByEmail = userRepository.findByEmail(email);
-        if(!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() >= 3){
+        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() >= 3) {
             log.info("user with email={} have so many companies. Please, buy subscribe or remove companies to size 2.", email);
             return null;
         }

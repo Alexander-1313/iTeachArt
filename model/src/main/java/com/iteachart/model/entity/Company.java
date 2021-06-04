@@ -66,5 +66,4 @@ public class Company {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "companies")
     @JsonIgnore
     private Set<User> users = new HashSet<>();
-
 }

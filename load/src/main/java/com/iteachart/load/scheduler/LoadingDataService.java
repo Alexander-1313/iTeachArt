@@ -32,10 +32,10 @@ public class LoadingDataService {
         log.info("loading data from finnhub was started");
         List<CompanyDto> us = stockFeignClient.getAllCompanies("US");
 
-        for(int i =0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             String symbol = us.get(i).getSymbol();
             Company company = stockFeignClient.getCompany(symbol);
-            if(company.getTicker() == null) continue;
+            if (company.getTicker() == null) continue;
 
             CandleDto companyCandle = stockFeignClient.getCompanyCandle(symbol, LocalDate.now().minusDays(100).toEpochSecond(LocalTime.MAX, ZoneOffset.UTC), LocalDate.now().toEpochSecond(LocalTime.MAX, ZoneOffset.UTC));
             FinancialReport financialReport = stockFeignClient.getFinancialReport(symbol);
@@ -69,12 +69,10 @@ public class LoadingDataService {
                 candleList.addAll(candles);
                 company.setCandles(candleList);
             }
-
             Company save = companyRepository.save(company);
 
             log.info("company={} was saved to DB", save);
         }
         log.info("loading data from finnhub was ended!");
     }
-
 }

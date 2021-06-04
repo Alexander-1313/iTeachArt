@@ -64,5 +64,4 @@ public class PaypalController {
         }
         return "redirect:/";
     }
-
 }

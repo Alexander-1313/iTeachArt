@@ -34,8 +34,8 @@ public class StockController {
     private final UserValidationService userValidationService;
 
     @GetMapping("/all")
-    public List<Company> getAllCompanies(@RequestParam String exchange, Principal principal){
-        if(userValidationService.isBlocked(principal.getName())){
+    public List<Company> getAllCompanies(@RequestParam String exchange, Principal principal) {
+        if (userValidationService.isBlocked(principal.getName())) {
             log.info("user with email={} is blocked", principal.getName());
             return null;
         }
@@ -43,8 +43,8 @@ public class StockController {
     }
 
     @GetMapping("/company")
-    public Company getCompany(@RequestParam String symbol, Principal principal){
-        if(userValidationService.isBlocked(principal.getName())){
+    public Company getCompany(@RequestParam String symbol, Principal principal) {
+        if (userValidationService.isBlocked(principal.getName())) {
             log.info("user with email={} is blocked", principal.getName());
             return null;
         }
@@ -52,8 +52,8 @@ public class StockController {
     }
 
     @GetMapping("/financialReports")
-    public List<FinancialReport> getFinancialReport(@RequestParam String symbol, Principal principal){
-        if(userValidationService.isBlocked(principal.getName())){
+    public List<FinancialReport> getFinancialReport(@RequestParam String symbol, Principal principal) {
+        if (userValidationService.isBlocked(principal.getName())) {
             log.info("user with email={} is blocked", principal.getName());
             return null;
         }
@@ -63,8 +63,8 @@ public class StockController {
     @GetMapping("/news")
     public List<CompanyNews> getCompanyNews(@RequestParam String symbol,
                                             @RequestParam String from,
-                                            @RequestParam String to, Principal principal){
-        if(userValidationService.isBlocked(principal.getName())){
+                                            @RequestParam String to, Principal principal) {
+        if (userValidationService.isBlocked(principal.getName())) {
             log.info("user with email={} is blocked", principal.getName());
             return null;
         }
@@ -72,8 +72,8 @@ public class StockController {
     }
 
     @GetMapping("/shares")
-    public List<CompanyShares> getCompanyShares(@RequestParam String symbol, Principal principal){
-        if(userValidationService.isBlocked(principal.getName())){
+    public List<CompanyShares> getCompanyShares(@RequestParam String symbol, Principal principal) {
+        if (userValidationService.isBlocked(principal.getName())) {
             log.info("user with email={} is blocked", principal.getName());
             return null;
         }
@@ -83,12 +83,11 @@ public class StockController {
     @GetMapping("/candles")
     public List<Candle> getCompanyCandle(@RequestParam String symbol,
                                          @RequestParam String from,
-                                         @RequestParam String to, Principal principal){
-        if(userValidationService.isBlocked(principal.getName())){
+                                         @RequestParam String to, Principal principal) {
+        if (userValidationService.isBlocked(principal.getName())) {
             log.info("user with email={} is blocked", principal.getName());
             return null;
         }
         return candleService.findAllInPeriod(symbol, LocalDate.parse(from), LocalDate.parse(to));
     }
-
 }

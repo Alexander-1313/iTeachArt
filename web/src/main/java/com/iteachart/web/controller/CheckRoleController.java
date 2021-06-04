@@ -17,19 +17,19 @@ public class CheckRoleController {
     private final JwtProvider jwtProvider;
 
     @GetMapping("/user")
-    public String user(Principal principal){
+    public String user(Principal principal) {
         log.info("user with email={}", principal.getName());
         return "user";
     }
 
     @GetMapping("/admin")
-    public String admin(Principal principal){
+    public String admin(Principal principal) {
         log.info("user with email={}", principal.getName());
         return "admin!";
     }
 
     @GetMapping("/gentoken")
-    public String genToken(String email){
+    public String genToken(String email) {
         return jwtProvider.generateToken(email);
     }
 }

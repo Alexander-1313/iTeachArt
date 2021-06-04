@@ -25,13 +25,13 @@ public class CandleDto {
     private List<Long> t;
     private List<Long> v;
 
-    public static List<Candle> fromDtoToEntity(CandleDto candleDto){
-        if(candleDto.getT() == null) return null;
+    public static List<Candle> fromDtoToEntity(CandleDto candleDto) {
+        if (candleDto.getT() == null) return null;
 
         List<Candle> candles = new ArrayList<>();
         int size = candleDto.getT().size();
 
-        for(int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             Candle candle = new Candle();
             candle.setLowPrice(candleDto.getL().get(i));
             candle.setClosePrice(candleDto.getC().get(i));

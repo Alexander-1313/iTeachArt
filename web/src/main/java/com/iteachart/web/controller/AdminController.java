@@ -16,23 +16,23 @@ public class AdminController {
     private final UserService userService;
 
     @PostMapping("/block")
-    public User blockUser(@RequestParam String user){
+    public User blockUser(@RequestParam String user) {
         return userService.blockUser(user);
     }
 
     @PostMapping("/unblock")
-    public User unblockUser(@RequestParam String user){
+    public User unblockUser(@RequestParam String user) {
         return userService.unblockUser(user);
     }
 
     @PostMapping("/admin/changeSubscribe")
     public User changeSubscribeStatus(@RequestParam String user,
-                                      @RequestParam Boolean status){
+                                      @RequestParam Boolean status) {
         return userService.changeSubscribeStatus(user, status);
     }
 
     @PostMapping("/updateSubscribe")
-    public User updateSubscribe(@RequestParam String user){
+    public User updateSubscribe(@RequestParam String user) {
         return userService.updateSubscribe(user);
     }
 }

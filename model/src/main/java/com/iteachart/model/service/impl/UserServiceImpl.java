@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User blockUser(String email) {
         User byEmail = userRepository.findByEmail(email);
-        if(byEmail == null){
+        if (byEmail == null) {
             log.info("user with email={} not found", email);
             return null;
         }
@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User unblockUser(String email) {
         User byEmail = userRepository.findByEmail(email);
-        if(byEmail == null){
+        if (byEmail == null) {
             log.info("user with email={} not found", email);
             return null;
         }
@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
         if (userByEmail == null) {
             log.info("user with email={} not found", email);
             return null;
-        }else{
+        } else {
             userByEmail.setSubscribeEnabled(status);
             User save = userRepository.save(userByEmail);
             log.info("subscribe status was changed!");
@@ -65,12 +65,11 @@ public class UserServiceImpl implements UserService {
         if (userByEmail == null) {
             log.info("user with email={} not found", email);
             return null;
-        }else{
+        } else {
             userByEmail.setSubscribeExpireDate(LocalDate.now().plusDays(UserUtils.subscribeDuration));
             User save = userRepository.save(userByEmail);
             log.info("subscribe was updated!");
             return save;
         }
     }
-
 }
