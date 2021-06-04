@@ -20,10 +20,9 @@
 		Третий модуль - это веб-модуль, который содержит в себе контроллеры для юзеров.
 	</p>
 <h1>4. Как проверить работоспособность, примеры запросов-ответов</h1>
-	<p>
 		Проверить работосособность можно в программе postman используя эндпоинты приложения.<br>
 		<strong>Endpoints:</strong><br>
-		1) запрос:localhost:8080/user/financialReports?company=название_компании<br>
+		1) запрос:GET localhost:8080/user/financialReports?company=название_компании<br>
 		<pre>ответ:[
     {
         "cik": "",
@@ -40,7 +39,7 @@
     }
 		]
 		</pre><br>
-		2) запрос:localhost:8080/shares?symbol=FVIV<br>
+		2) запрос:GET localhost:8080/shares?symbol=FVIV<br>
 		ответ: 
 		<pre>[
     {
@@ -58,7 +57,66 @@
         },
         "id": 8
     }
-		]</pre>
-
-
-	</p>
+		]</pre><br>
+		3) запрос:POST localhost:8080/admin/changeSubscribe?user=alexander.rybak2020@mail.ru&status=false
+		ответ:
+		<pre>
+			{
+    "id": 1,
+    "firstName": "Alexander",
+    "secondName": "Rybak",
+    "email": "alexander.rybak2020@mail.ru",
+    "password": "$2y$12$BBQP2SnY0y..oidNkb.iyOvADyM/HlmmDWqkGrppOEzgijeabLhnK",
+    "createdAt": null,
+    "isBlocked": false,
+    "subscribeEnabled": false,
+    "subscribeExpireDate": "2020-12-12",
+    "role": {
+        "id": 2,
+        "role": "ROLE_ADMIN",
+        "authority": "ROLE_ADMIN"
+    },
+    "subscribe": null,
+    "companies": [
+        {
+            "ticker": "ARIS.TO",
+            "country": "CA",
+            "currency": "USD",
+            "name": "Aris Gold Corp",
+            "phone": "14163604653.0",
+            "weburl": "https://www.caldasgold.ca/",
+            "cik": null
+        },
+        {
+            "ticker": "FVIV",
+            "country": "US",
+            "currency": "USD",
+            "name": "Fortress Value Acquisition Corp IV",
+            "phone": "12127986100.0",
+            "weburl": "",
+            "cik": null
+        },
+        {
+            "ticker": "1113.HK",
+            "country": "HK",
+            "currency": "HKD",
+            "name": "CK Asset Holdings Ltd",
+            "phone": "85221288888.0",
+            "weburl": "http://www.ckah.com",
+            "cik": null
+        }
+    ],
+    "enabled": true,
+    "authorities": [
+        {
+            "id": 2,
+            "role": "ROLE_ADMIN",
+            "authority": "ROLE_ADMIN"
+        }
+    ],
+    "username": "alexander.rybak2020@mail.ru",
+    "accountNonExpired": true,
+    "accountNonLocked": true,
+    "credentialsNonExpired": true
+}
+		</pre>
