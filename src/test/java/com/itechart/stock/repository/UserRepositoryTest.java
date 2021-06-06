@@ -54,26 +54,4 @@ public class UserRepositoryTest {
         boolean existsById = userRepository.existsById(save.getId());
         assertFalse(existsById);
     }
-
-    @Test
-    public void testDeleteUserWithRole(){
-        User user = new User();
-        user.setEmail("alexanddedr");
-
-        Role role = new Role();
-        role.setRole("ROLE_US");
-
-        List<User> roleUser = role.getRoleUser();
-        roleUser.add(user);
-        role.setRoleUser(roleUser);
-
-        roleRepository.save(role);
-
-        user.setRole(role);
-
-        User save = userRepository.save(user);
-        roleRepository.delete(role);
-
-        assertNotNull(userRepository.getOne(save.getId()));
-    }
 }

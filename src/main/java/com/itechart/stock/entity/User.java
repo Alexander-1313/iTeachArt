@@ -1,5 +1,6 @@
 package com.itechart.stock.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -49,23 +50,26 @@ public class User implements UserDetails {
     @Column(name = "subscribe_expire")
     private LocalDate subscribeExpireDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_role", referencedColumnName = "id")
     @EqualsAndHashCode.Exclude
+    @JsonIgnore
     private Role role;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_subscriber", referencedColumnName = "id")
     @EqualsAndHashCode.Exclude
+    @JsonIgnore
     private Subscribe subscribe;
 
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "user_company", joinColumns = {
             @JoinColumn(name = "user_id", nullable = false, updatable = false) },
             inverseJoinColumns = { @JoinColumn(name = "company_id",
                     nullable = false, updatable = false) })
     @EqualsAndHashCode.Exclude
+    @JsonIgnore
     private Set<Company> companies = new HashSet<>();
 
     @Override

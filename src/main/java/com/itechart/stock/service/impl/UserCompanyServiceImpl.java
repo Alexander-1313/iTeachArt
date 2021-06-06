@@ -121,7 +121,9 @@ public class UserCompanyServiceImpl implements UserCompanyService {
     public User removeCompanyFromUser(String email, String company) {
         User userByEmail = userRepository.findByEmail(email);
         Company companyByName = companyRepository.findByName(company);
+        companyByName.getUsers().removeIf(u -> u.getEmail().equals(email));
         userByEmail.getCompanies().removeIf(c -> c.getTicker().equals(company));
+        companyRepository.save(companyByName);
         return userRepository.save(userByEmail);
     }
 }

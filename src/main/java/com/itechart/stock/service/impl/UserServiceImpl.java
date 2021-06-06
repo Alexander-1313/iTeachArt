@@ -1,5 +1,6 @@
 package com.itechart.stock.service.impl;
 
+import com.itechart.stock.entity.Role;
 import com.itechart.stock.entity.Subscribe;
 import com.itechart.stock.entity.User;
 import com.itechart.stock.repository.RoleRepository;
@@ -96,6 +97,9 @@ public class UserServiceImpl implements UserService {
             return null;
         }
         userRepository.delete(userByEmail);
+        Role role = roleRepository.findById(userByEmail.getRole().getId()).get();
+        role.getRoleUser().removeIf(u -> u.getEmail().equals(email));
+        roleRepository.save(role);
         return userByEmail;
     }
 
@@ -104,7 +108,7 @@ public class UserServiceImpl implements UserService {
         user.setIsBlocked(false);
         user.setSubscribeEnabled(false);
         user.setCreatedAt(new Date());
-        user.setRole(roleRepository.getOne(1L));
+        user.setRole(roleRepository.findById(1L).get());
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
