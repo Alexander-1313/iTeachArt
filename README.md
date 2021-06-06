@@ -2,7 +2,7 @@
 	<ol>
 		<li>Скачать проект и разархировать его</li>
 		<li>Перейти в корневой каталог и выполнить команду mvn clean package</li>
-		<li>Перейти в папку target модуля web командой cd web/target</li>
+		<li>Перейти в папку target командой cd target</li>
 		<li>Выполнить команду java -jar iteachart-0.0.1-SNAPSHOT.jar</li>
 	</ol>
 <h1>2. Как запустить тесты</h1>
