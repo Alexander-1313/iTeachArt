@@ -25,7 +25,7 @@ public class Role implements GrantedAuthority {
     @Column(name = "role")
     private String role;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "role")
     @ToString.Exclude
     @JsonIgnore
     private List<User> roleUser = new ArrayList<>();
