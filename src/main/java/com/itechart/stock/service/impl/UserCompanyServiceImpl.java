@@ -43,6 +43,10 @@ public class UserCompanyServiceImpl implements UserCompanyService {
                 return null;
             }
         }
+        if(userByEmail.getSubscribe() == null && userByEmail.getCompanies().size() == UserUtils.defaultCompanyCount){
+            log.info("limit to add company to user with email={}", email);
+            return null;
+        }
         if(companyByName == null){
             log.info("company is null! We sent request to another server...");
             companyByName = loadFeignClient.getCompany(company);
