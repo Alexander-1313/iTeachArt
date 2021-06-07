@@ -10,6 +10,7 @@ import com.itechart.stock.feign.LoadFeignClient;
 import com.itechart.stock.repository.CompanyRepository;
 import com.itechart.stock.repository.UserRepository;
 import com.itechart.stock.service.UserCompanyService;
+import com.itechart.stock.util.UserUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -32,8 +33,12 @@ public class UserCompanyServiceImpl implements UserCompanyService {
         Company companyByName = companyRepository.findByName(company);
         User userByEmail = userRepository.findByEmail(email);
 
-        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() == 2) {
+        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() == UserUtils.defaultCompanyCount) {
             log.info("cant add company to user with email={}, because user isn't subscribed", email);
+            return null;
+        }
+        if(userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() == userByEmail.getSubscribe().getCompanyCapacity()){
+            log.info("cant add company. Limit capacity in your subscribe.");
             return null;
         }
         if(companyByName == null){
@@ -60,7 +65,7 @@ public class UserCompanyServiceImpl implements UserCompanyService {
     @Override
     public Set<Company> getAllCompaniesByUser(String email) {
         User userByEmail = userRepository.findByEmail(email);
-        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() > 2) {
+        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() > UserUtils.defaultCompanyCount) {
             log.info("user with email={} have so many companies. Please, buy subscribe or remove companies to size 2.", email);
             return null;
         }
@@ -70,7 +75,7 @@ public class UserCompanyServiceImpl implements UserCompanyService {
     @Override
     public Company getCompanyBySymbol(String email, String company) {
         User userByEmail = userRepository.findByEmail(email);
-        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() > 2) {
+        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() > UserUtils.defaultCompanyCount) {
             log.info("user with email={} have so many companies. Please, buy subscribe or remove companies to size 2.", email);
             return null;
         }
@@ -80,7 +85,7 @@ public class UserCompanyServiceImpl implements UserCompanyService {
     @Override
     public List<FinancialReport> getFinancialReportByCompany(String email, String company) {
         User userByEmail = userRepository.findByEmail(email);
-        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() > 2) {
+        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() > UserUtils.defaultCompanyCount) {
             log.info("user with email={} have so many companies. Please, buy subscribe or remove companies to size 2.", email);
             return null;
         }
@@ -90,7 +95,7 @@ public class UserCompanyServiceImpl implements UserCompanyService {
     @Override
     public List<Candle> getCandleByCompany(String email, String company, String from, String to) {
         User userByEmail = userRepository.findByEmail(email);
-        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() > 2) {
+        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() > UserUtils.defaultCompanyCount) {
             log.info("user with email={} have so many companies. Please, buy subscribe or remove companies to size 2.", email);
             return null;
         }
@@ -100,7 +105,7 @@ public class UserCompanyServiceImpl implements UserCompanyService {
     @Override
     public List<CompanyShares> getSharesByCompany(String email, String company) {
         User userByEmail = userRepository.findByEmail(email);
-        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() > 2) {
+        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() > UserUtils.defaultCompanyCount) {
             log.info("user with email={} have so many companies. Please, buy subscribe or remove companies to size 2.", email);
             return null;
         }
@@ -110,7 +115,7 @@ public class UserCompanyServiceImpl implements UserCompanyService {
     @Override
     public List<CompanyNews> getNewsByCompany(String email, String company, String from, String to) {
         User userByEmail = userRepository.findByEmail(email);
-        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() > 2) {
+        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() > UserUtils.defaultCompanyCount) {
             log.info("user with email={} have so many companies. Please, buy subscribe or remove companies to size 2.", email);
             return null;
         }
@@ -120,9 +125,11 @@ public class UserCompanyServiceImpl implements UserCompanyService {
     @Override
     public User removeCompanyFromUser(String email, String company) {
         User userByEmail = userRepository.findByEmail(email);
-        Company companyByName = companyRepository.findByName(company);
-        companyByName.getUsers().removeIf(u -> u.getEmail().equals(email));
-        userByEmail.getCompanies().removeIf(c -> c.getTicker().equals(company));
+        Company companyByName = companyRepository.findByTicker(company);
+        if(userByEmail != null && companyByName != null) {
+            companyByName.getUsers().removeIf(u -> u.getEmail().equals(email));
+            userByEmail.getCompanies().removeIf(c -> c.getTicker().equals(company));
+        }
         companyRepository.save(companyByName);
         return userRepository.save(userByEmail);
     }
