@@ -1,8 +1,10 @@
 package com.itechart.stock.service.impl;
 
+import com.itechart.stock.entity.Company;
 import com.itechart.stock.entity.Role;
 import com.itechart.stock.entity.Subscribe;
 import com.itechart.stock.entity.User;
+import com.itechart.stock.repository.CompanyRepository;
 import com.itechart.stock.repository.RoleRepository;
 import com.itechart.stock.repository.SubscribeRepository;
 import com.itechart.stock.repository.UserRepository;
@@ -25,6 +27,7 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final SubscribeRepository subscribeRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final CompanyRepository companyRepository;
 
     @Override
     public User blockUser(String email) {
@@ -100,6 +103,11 @@ public class UserServiceImpl implements UserService {
         Role role = roleRepository.findById(userByEmail.getRole().getId()).get();
         role.getRoleUser().removeIf(u -> u.getEmail().equals(email));
         roleRepository.save(role);
+        for(Company company: userByEmail.getCompanies()){
+            Company companyByTicker = companyRepository.findByTicker(company.getTicker());
+            companyByTicker.getUsers().removeIf(u -> u.getEmail().equals(email));
+            companyRepository.save(companyByTicker);
+        }
         return userByEmail;
     }
 

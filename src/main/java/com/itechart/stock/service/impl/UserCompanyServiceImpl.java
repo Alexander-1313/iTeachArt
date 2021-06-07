@@ -37,9 +37,11 @@ public class UserCompanyServiceImpl implements UserCompanyService {
             log.info("cant add company to user with email={}, because user isn't subscribed", email);
             return null;
         }
-        if(userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() == userByEmail.getSubscribe().getCompanyCapacity()){
-            log.info("cant add company. Limit capacity in your subscribe.");
-            return null;
+        if(userByEmail.getSubscribe() != null) {
+            if (userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() == userByEmail.getSubscribe().getCompanyCapacity()) {
+                log.info("cant add company. Limit capacity in your subscribe.");
+                return null;
+            }
         }
         if(companyByName == null){
             log.info("company is null! We sent request to another server...");
@@ -74,52 +76,42 @@ public class UserCompanyServiceImpl implements UserCompanyService {
 
     @Override
     public Company getCompanyBySymbol(String email, String company) {
-        User userByEmail = userRepository.findByEmail(email);
-        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() > UserUtils.defaultCompanyCount) {
-            log.info("user with email={} have so many companies. Please, buy subscribe or remove companies to size 2.", email);
-            return null;
+        if(validateUserAndCompany(email, company) != null) {
+            return loadFeignClient.getCompany(company);
         }
-        return loadFeignClient.getCompany(company);
+        return null;
     }
 
     @Override
     public List<FinancialReport> getFinancialReportByCompany(String email, String company) {
-        User userByEmail = userRepository.findByEmail(email);
-        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() > UserUtils.defaultCompanyCount) {
-            log.info("user with email={} have so many companies. Please, buy subscribe or remove companies to size 2.", email);
-            return null;
+        if(validateUserAndCompany(email, company) != null) {
+            return loadFeignClient.getFinancialReport(company);
         }
-        return loadFeignClient.getFinancialReport(company);
+        return null;
     }
 
     @Override
     public List<Candle> getCandleByCompany(String email, String company, String from, String to) {
-        User userByEmail = userRepository.findByEmail(email);
-        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() > UserUtils.defaultCompanyCount) {
-            log.info("user with email={} have so many companies. Please, buy subscribe or remove companies to size 2.", email);
-            return null;
+        if(validateUserAndCompany(email, company) != null){
+            return loadFeignClient.getCompanyCandle(company, from, to);
         }
-        return loadFeignClient.getCompanyCandle(company, from, to);
+        return null;
     }
 
     @Override
     public List<CompanyShares> getSharesByCompany(String email, String company) {
-        User userByEmail = userRepository.findByEmail(email);
-        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() > UserUtils.defaultCompanyCount) {
-            log.info("user with email={} have so many companies. Please, buy subscribe or remove companies to size 2.", email);
-            return null;
+        if(validateUserAndCompany(email, company) != null) {
+            return loadFeignClient.getCompanyShares(company);
         }
-        return loadFeignClient.getCompanyShares(company);
+        return null;
     }
 
     @Override
     public List<CompanyNews> getNewsByCompany(String email, String company, String from, String to) {
-        User userByEmail = userRepository.findByEmail(email);
-        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() > UserUtils.defaultCompanyCount) {
-            log.info("user with email={} have so many companies. Please, buy subscribe or remove companies to size 2.", email);
-            return null;
+        if(validateUserAndCompany(email, company) != null) {
+            return loadFeignClient.getCompanyNews(company, from, to);
         }
-        return loadFeignClient.getCompanyNews(company, from, to);
+        return null;
     }
 
     @Override
@@ -132,5 +124,19 @@ public class UserCompanyServiceImpl implements UserCompanyService {
         }
         companyRepository.save(companyByName);
         return userRepository.save(userByEmail);
+    }
+
+    private User validateUserAndCompany(String email, String company){
+        User userByEmail = userRepository.findByEmail(email);
+        Company companyByTicker = companyRepository.findByTicker(company);
+        if(companyByTicker == null || !userByEmail.getCompanies().contains(companyByTicker)){
+            log.info("user with email={} dont track this company", email);
+            return null;
+        }
+        if (!userByEmail.getSubscribeEnabled() && userByEmail.getCompanies().size() > UserUtils.defaultCompanyCount) {
+            log.info("user with email={} have so many companies. Please, buy subscribe or remove companies to size 2.", email);
+            return null;
+        }
+        return userByEmail;
     }
 }
